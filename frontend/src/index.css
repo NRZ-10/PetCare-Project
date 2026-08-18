@@ -8,23 +8,49 @@ body {
 }
 
 @layer utilities {
-  .animation-delay-2000 {
-    animation-delay: 2s;
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
   }
-  .animation-delay-4000 {
-    animation-delay: 4s;
+  
+  .animate-fade-in-right {
+    animation: fadeInRight 0.8s ease-out forwards;
+  }
+
+  .animate-pulse-slow {
+    animation: pulseSlow 3s infinite ease-in-out;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.animate-blob {
-  animation: blob 7s infinite;
+@keyframes pulseSlow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 @keyframes fadeScaleIn {
@@ -37,14 +63,3 @@ body {
     transform: scale(1) translateY(0);
   }
 }
-
-@keyframes float-heart {
-  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-  25% { transform: translate(-8px, -15px) scale(1.2); opacity: 1; }
-  75% { transform: translate(8px, -30px) scale(1); opacity: 0.8; }
-  100% { transform: translate(0px, -45px) scale(0.8); opacity: 0; }
-}
-
-.float-heart-1 { animation: float-heart 2s ease-in-out infinite; }
-.float-heart-2 { animation: float-heart 2.5s ease-in-out 0.4s infinite; }
-.float-heart-3 { animation: float-heart 2.2s ease-in-out 0.8s infinite; }

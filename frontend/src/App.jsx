@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './hooks/useAuth';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 // Layouts
 import OwnerLayout from './layouts/OwnerLayout';
@@ -62,6 +63,7 @@ const PublicShell = ({ children }) => (
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <AuthProvider>
         <Toaster position="top-right" toastOptions={{ duration: 3500 }} />
 

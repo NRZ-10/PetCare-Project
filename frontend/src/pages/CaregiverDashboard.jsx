@@ -6,22 +6,26 @@ import DashboardCard from '../components/DashboardCard';
 import Loader from '../components/Loader';
 import { getCaregiverProfile } from '../services/caregiverService';
 import { getCaregiverBookings } from '../services/bookingService';
+import reviewService from '../services/reviewService';
 
 const CaregiverDashboard = () => {
     const { user } = useAuth();
     const [profile, setProfile] = useState(null);
     const [bookings, setBookings] = useState([]);
+    const [reviewsData, setReviewsData] = useState({ averageRating: '0.0', count: 0 });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [profileRes, bookingsRes] = await Promise.all([
+                const [profileRes, bookingsRes, reviewsRes] = await Promise.all([
                     getCaregiverProfile(),
-                    getCaregiverBookings()
+                    getCaregiverBookings(),
+                    reviewService.getCaregiverReviews(user._id)
                 ]);
                 setProfile(profileRes.data);
                 setBookings(bookingsRes.data);
+                setReviewsData(reviewsRes);
             } catch (error) {
                 console.error("Failed to fetch dashboard data", error);
             } finally {
@@ -50,8 +54,8 @@ const CaregiverDashboard = () => {
         },
         {
             title: 'Rating',
-            value: '0.0',
-            subtitle: 'No reviews yet',
+            value: loading ? '—' : (reviewsData.averageRating || '0.0').toString(),
+            subtitle: loading ? '—' : `${reviewsData.count} review${reviewsData.count === 1 ? '' : 's'}`,
             icon: Star,
             gradient: 'bg-gradient-to-br from-amber-400 to-orange-500',
             iconBg: 'bg-white/20',
