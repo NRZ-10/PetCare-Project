@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # PetCare Connect
 
 PetCare Connect is a full-stack MERN application that connects pet owners with reliable and verified pet caregivers. It provides a seamless experience for managing pet profiles, booking services, leaving reviews, and managing profiles. 
@@ -57,7 +56,7 @@ The application is built with a role-based architecture supporting three distinc
 ## 📁 Project Structure
 
 ```text
-miniproject.real/
+PetCare-Project/
 ├── backend/                  # Express server
 │   ├── config/               # Database configuration
 │   ├── controllers/          # Request handlers & business logic
@@ -82,58 +81,6 @@ miniproject.real/
 
 ---
 
-## ⚙️ Installation & Setup
-
-### Prerequisites
-- Node.js (v16+ recommended)
-- MongoDB (Local instance or MongoDB Atlas URI)
-
-### 1. Clone the repository
-
-```bash
-git clone <your-repo-url>
-cd miniproject.real
-```
-
-### 2. Backend Setup
-
-```bash
-cd backend
-npm install
-```
-
-Create a `.env` file in the `backend` directory and add the following:
-
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string_here
-JWT_SECRET=your_super_secret_jwt_key
-```
-
-Start the backend server:
-
-```bash
-npm run dev
-# The server will run on http://localhost:5000
-```
-
-### 3. Frontend Setup
-
-Open a new terminal window:
-
-```bash
-cd frontend
-npm install
-```
-
-Start the Vite development server:
-
-```bash
-npm run dev
-# The app will be available at http://localhost:5173
-```
-
----
 
 ## 📸 Screenshots
 
@@ -193,6 +140,3 @@ npm run dev
 ---
 
 *This project was developed as a college MERN stack mini-project.*
-=======
-# miniprojectcollege
->>>>>>> 3b17b5ea1b40649a08fc40be71daedb65cec3dd9
