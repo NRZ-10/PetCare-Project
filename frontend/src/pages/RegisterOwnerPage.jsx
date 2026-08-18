@@ -5,6 +5,7 @@ import Card from '../components/Card';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import toast from 'react-hot-toast';
+import { ArrowLeft } from 'lucide-react';
 
 const RegisterOwnerPage = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
@@ -34,7 +35,11 @@ const RegisterOwnerPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
+            <Link to="/" className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center text-slate-500 hover:text-slate-900 font-medium transition-colors">
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back to Home
+            </Link>
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                     Sign up as a Pet Owner
