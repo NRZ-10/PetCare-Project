@@ -18,7 +18,8 @@ const initialForm = {
     services: [],
     price: '',
     availability: [],
-    location: ''
+    location: '',
+    phone: ''
 };
 
 /**
@@ -41,7 +42,8 @@ const CaregiverForm = ({ initialData, onSubmit, isLoading }) => {
                 services: initialData.services || [],
                 price: initialData.price !== undefined ? String(initialData.price) : '',
                 availability: initialData.availability || [],
-                location: initialData.location || ''
+                location: initialData.location || '',
+                phone: initialData.user?.phone || ''
             });
         }
     }, [initialData]);
@@ -51,8 +53,11 @@ const CaregiverForm = ({ initialData, onSubmit, isLoading }) => {
         if (form.experience !== '' && (isNaN(Number(form.experience)) || Number(form.experience) < 0)) {
             newErrors.experience = 'Experience must be a positive number';
         }
-        if (form.price !== '' && (isNaN(Number(form.price)) || Number(form.price) < 0)) {
-            newErrors.price = 'Price must be a positive number';
+        if (form.price !== '' && (isNaN(Number(form.price)) || Number(form.price) <= 0)) {
+            newErrors.price = 'Price must be greater than ₹0';
+        }
+        if (form.phone && form.phone.trim() !== '' && !/^\+?[0-9\s-]{10,15}$/.test(form.phone)) {
+            newErrors.phone = 'Enter a valid phone number';
         }
         return newErrors;
     };
@@ -135,14 +140,14 @@ const CaregiverForm = ({ initialData, onSubmit, isLoading }) => {
                 <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5">Pricing (per visit/hour)</label>
                     <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">$</span>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500">₹</span>
                         <input
                             type="number"
                             name="price"
                             value={form.price}
                             onChange={handleChange}
-                            placeholder="0"
-                            min="0"
+                            placeholder="1"
+                            min="1"
                             className={`${errors.price ? inputError : inputNormal} pl-8`}
                         />
                     </div>
@@ -160,6 +165,19 @@ const CaregiverForm = ({ initialData, onSubmit, isLoading }) => {
                     placeholder="City, Neighborhood or Zip Code"
                     className={inputNormal}
                 />
+            </div>
+
+            <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Phone Number</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="+91 98765 43210"
+                    className={errors.phone ? inputError : inputNormal}
+                />
+                <FieldError field="phone" />
             </div>
 
             <div>

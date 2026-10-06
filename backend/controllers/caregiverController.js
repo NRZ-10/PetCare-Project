@@ -29,7 +29,7 @@ const getProfile = async (req, res) => {
 // @access  Private/Caregiver
 const updateProfile = async (req, res) => {
     try {
-        const { bio, experience, services, price, availability, location } = req.body;
+        const { bio, experience, services, price, availability, location, phone } = req.body;
 
         let profile = await CaregiverProfile.findOne({ user: req.user._id });
 
@@ -37,10 +37,27 @@ const updateProfile = async (req, res) => {
             return res.status(404).json({ message: 'Profile not found' });
         }
 
+        if (phone !== undefined) {
+            if (phone.trim() !== '' && !/^\+?[0-9\s-]{10,15}$/.test(phone)) {
+                return res.status(400).json({ message: 'Invalid phone number format' });
+            }
+            const User = require('../models/User');
+            const user = await User.findById(req.user._id);
+            if (user) {
+                user.phone = phone;
+                await user.save();
+            }
+        }
+
         if (bio !== undefined) profile.bio = bio;
         if (experience !== undefined) profile.experience = Number(experience);
         if (services !== undefined) profile.services = services;
-        if (price !== undefined) profile.price = Number(price);
+        if (price !== undefined) {
+            if (Number(price) <= 0) {
+                return res.status(400).json({ message: 'Price must be greater than ₹0' });
+            }
+            profile.price = Number(price);
+        }
         if (availability !== undefined) profile.availability = availability;
         if (location !== undefined) profile.location = location;
 

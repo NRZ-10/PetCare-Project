@@ -11,6 +11,11 @@ const petSchema = new mongoose.Schema({
         required: [true, 'Pet name is required'],
         trim: true
     },
+    type: {
+        type: String,
+        enum: ['Dog', 'Cat', 'Bird', 'Rabbit', 'Other'],
+        required: [true, 'Pet type is required']
+    },
     breed: {
         type: String,
         required: [true, 'Breed is required'],

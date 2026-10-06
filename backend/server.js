@@ -11,6 +11,7 @@ const bookingRoutes = require('./routes/booking');
 const adminRoutes = require('./routes/admin');
 const reviewRoutes = require('./routes/reviews');
 const notificationRoutes = require('./routes/notifications');
+const complaintRoutes = require('./routes/complaints');
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/complaints', complaintRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');

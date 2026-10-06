@@ -113,13 +113,23 @@ const BookingForm = ({ caregiver, onSubmit, isLoading }) => {
                 </div>
                 <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-1.5 flex items-center gap-1"><Clock size={14}/> Time</label>
-                    <input
-                        type="time"
+                    <select
                         name="time"
                         value={form.time}
                         onChange={handleChange}
                         className={errors.time ? inputError : inputNormal}
-                    />
+                    >
+                        <option value="">-- Select time --</option>
+                        {Array.from({ length: 24 }).flatMap((_, i) => {
+                            const hour = i === 0 ? 12 : i > 12 ? i - 12 : i;
+                            const ampm = i < 12 ? 'AM' : 'PM';
+                            const formattedHour = hour.toString().padStart(2, '0');
+                            return [
+                                <option key={`${i}:00`} value={`${formattedHour}:00 ${ampm}`}>{`${formattedHour}:00 ${ampm}`}</option>,
+                                <option key={`${i}:30`} value={`${formattedHour}:30 ${ampm}`}>{`${formattedHour}:30 ${ampm}`}</option>
+                            ];
+                        })}
+                    </select>
                     {errors.time && <p className="text-red-500 text-xs mt-1">{errors.time}</p>}
                 </div>
             </div>

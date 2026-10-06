@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "6a832e6a2352884df268a350",
+    "user": "6a82e300d3f0510078fbec0a",
+    "title": "New Booking Request",
+    "message": "You have a new booking request from akshai.",
+    "type": "booking_request",
+    "read": true,
+    "relatedId": "6a832e6a2352884df268a34f",
+    "createdAt": "2026-08-17T15:53:14.692Z",
+    "updatedAt": "2026-08-17T15:56:01.362Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a832eed2352884df268a351",
+    "user": "6a82e2cdd3f0510078fbec09",
+    "title": "Booking Accepted",
+    "message": "Your booking on 2026-08-19 has been accepted by vivek.",
+    "type": "booking_accepted",
+    "read": true,
+    "relatedId": "6a832e6a2352884df268a34f",
+    "createdAt": "2026-08-17T15:55:25.088Z",
+    "updatedAt": "2026-08-17T15:59:55.125Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a832efd2352884df268a352",
+    "user": "6a82e2cdd3f0510078fbec09",
+    "title": "Booking Completed",
+    "message": "Your booking on 2026-08-19 has been marked as completed by vivek. Please leave a review!",
+    "type": "booking_completed",
+    "read": true,
+    "relatedId": "6a832e6a2352884df268a34f",
+    "createdAt": "2026-08-17T15:55:41.490Z",
+    "updatedAt": "2026-08-17T15:59:55.125Z",
+    "__v": 0
+  }
+]

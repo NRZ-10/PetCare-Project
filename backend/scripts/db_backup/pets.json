@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "6a82e525d3f0510078fbec0c",
+    "owner": "6a82e2cdd3f0510078fbec09",
+    "name": "Buddy",
+    "breed": "Golden Retreiver",
+    "age": 1,
+    "gender": "Male",
+    "vaccinationStatus": "Up to date",
+    "medicalNotes": "",
+    "imageUrl": "/uploads/1786963237261-492334163.jpg",
+    "createdAt": "2026-08-17T10:40:37.266Z",
+    "updatedAt": "2026-08-17T10:40:37.266Z",
+    "__v": 0
+  }
+]

@@ -39,7 +39,12 @@ const updateOwnerProfile = async (req, res) => {
         }
 
         if (name) user.name = name;
-        if (phone !== undefined) user.phone = phone;
+        if (phone !== undefined) {
+            if (phone.trim() !== '' && !/^\+?[0-9\s-]{10,15}$/.test(phone)) {
+                return res.status(400).json({ message: 'Invalid phone number format' });
+            }
+            user.phone = phone;
+        }
         if (address !== undefined) user.address = address;
         if (bio !== undefined) user.bio = bio;
 

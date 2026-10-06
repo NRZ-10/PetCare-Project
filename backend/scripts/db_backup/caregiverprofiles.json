@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "6a82e300d3f0510078fbec0b",
+    "user": "6a82e300d3f0510078fbec0a",
+    "photo": "/uploads/1786962870293-926836226.jpg",
+    "bio": "My name is Vivek. I m a professional caregiver.",
+    "experience": 1,
+    "services": [
+      "Pet Sitting",
+      "House Sitting"
+    ],
+    "price": 25,
+    "availability": [
+      "Monday",
+      "Wednesday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "location": "Mankada",
+    "verificationStatus": "Verified",
+    "createdAt": "2026-08-17T10:31:28.713Z",
+    "updatedAt": "2026-08-17T10:38:25.239Z",
+    "__v": 1
+  },
+  {
+    "_id": "6a8431a42346d9437922ac0b",
+    "user": "6a8431a32346d9437922ac0a",
+    "photo": "",
+    "bio": "",
+    "experience": 0,
+    "services": [],
+    "price": 0,
+    "availability": [],
+    "location": "",
+    "verificationStatus": "Pending",
+    "createdAt": "2026-08-18T10:19:16.436Z",
+    "updatedAt": "2026-08-18T10:19:16.436Z",
+    "__v": 0
+  }
+]

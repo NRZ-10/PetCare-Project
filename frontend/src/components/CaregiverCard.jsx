@@ -73,7 +73,7 @@ const CaregiverCard = ({ profile }) => {
                 {/* Footer with Price and Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-slate-100 mt-auto">
                     <div>
-                        <span className="text-lg font-extrabold text-emerald-600">${profile.price || 0}</span>
+                        <span className="text-lg font-extrabold text-emerald-600">₹{profile.price || 0}</span>
                         <span className="text-xs text-slate-500 font-medium">/hr</span>
                     </div>
                     <Link

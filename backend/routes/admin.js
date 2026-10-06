@@ -10,7 +10,8 @@ const {
     verifyCaregiver,
     getPets,
     deletePet,
-    getBookings
+    getBookings,
+    getReports
 } = require('../controllers/adminController');
 
 // All routes require admin role
@@ -28,5 +29,7 @@ router.get('/pets', getPets);
 router.delete('/pets/:id', deletePet);
 
 router.get('/bookings', getBookings);
+
+router.get('/reports', getReports);
 
 module.exports = router;

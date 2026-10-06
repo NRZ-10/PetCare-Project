@@ -172,9 +172,9 @@ const CaregiverProfileDetail = () => {
                     <div className="bg-slate-50 rounded-xl p-5 border border-slate-100 flex flex-wrap gap-8 justify-around text-center">
                         <div>
                             <div className="flex items-center justify-center gap-1 text-slate-400 font-bold text-xs uppercase tracking-wider mb-2">
-                                <DollarSign size={14} /> Pricing
+                                Pricing
                             </div>
-                            <div className="text-xl font-extrabold text-slate-800">${profile.price} <span className="text-sm font-medium text-slate-500">/hr</span></div>
+                            <div className="text-xl font-extrabold text-slate-800">₹{profile.price} <span className="text-sm font-medium text-slate-500">/hr</span></div>
                         </div>
                         <div>
                             <div className="flex items-center justify-center gap-1 text-slate-400 font-bold text-xs uppercase tracking-wider mb-2">

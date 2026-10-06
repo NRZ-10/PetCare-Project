@@ -112,10 +112,10 @@ const CaregiverProfileView = () => {
                         <div className="bg-slate-50 rounded-xl p-5 border border-slate-100 h-fit space-y-6">
                             <div>
                                 <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-wider mb-2">
-                                    <DollarSign size={14} /> Pricing
+                                    Pricing
                                 </div>
                                 <div className="text-2xl font-extrabold text-slate-800">
-                                    ${profile?.price || 0} <span className="text-sm text-slate-500 font-medium">/visit</span>
+                                    ₹{profile?.price || 0} <span className="text-sm text-slate-500 font-medium">/visit</span>
                                 </div>
                             </div>
                             

@@ -1,0 +1,13 @@
+[
+  {
+    "_id": "6a832ff12352884df268a353",
+    "booking": "6a832e6a2352884df268a34f",
+    "caregiver": "6a82e300d3f0510078fbec0a",
+    "owner": "6a82e2cdd3f0510078fbec09",
+    "rating": 5,
+    "comment": "Great service! My pet was well cared for, and the caregiver was very kind, responsible, and attentive. Highly recommended!\n",
+    "createdAt": "2026-08-17T15:59:45.747Z",
+    "updatedAt": "2026-08-17T15:59:45.747Z",
+    "__v": 0
+  }
+]

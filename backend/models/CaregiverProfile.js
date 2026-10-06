@@ -25,7 +25,8 @@ const caregiverProfileSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        default: 0
+        default: 1,
+        min: [1, 'Price must be greater than 0']
     },
     availability: {
         type: [String],

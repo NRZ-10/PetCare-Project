@@ -71,7 +71,7 @@ const Navbar = () => {
                                 <Heart className="h-6 w-6 text-white" />
                             </div>
                             <span className="ml-3 text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
-                                PetCare
+                                PetCareConnect
                             </span>
                         </Link>
                     </div>

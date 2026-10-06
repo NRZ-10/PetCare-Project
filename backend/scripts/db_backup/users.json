@@ -1,0 +1,58 @@
+[
+  {
+    "_id": "6a6c615feb5b4c7a6eaffef2",
+    "name": "Admin",
+    "email": "admin@petcare.com",
+    "password": "$2b$10$niMCzjX0u6kdieF2XEHd7exUNMEE9YZ.ATuB5aC0pMZOZdxjAORpO",
+    "role": "admin",
+    "phone": "",
+    "address": "",
+    "bio": "",
+    "profileImage": "",
+    "createdAt": "2026-07-31T08:48:31.456Z",
+    "updatedAt": "2026-07-31T08:48:31.456Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a82e2cdd3f0510078fbec09",
+    "name": "akshai",
+    "email": "akshai@owner.com",
+    "password": "$2b$10$3UCaAXjLn45V/2uIAsIAae0jAlLAFm1BRyEHEjQRxtkaLk.mWlsqW",
+    "role": "owner",
+    "phone": "+91 9087654321",
+    "address": "Nilambur",
+    "bio": "",
+    "profileImage": "/uploads/1786981529530-657639495.jpg",
+    "createdAt": "2026-08-17T10:30:37.213Z",
+    "updatedAt": "2026-08-17T15:45:29.748Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a82e300d3f0510078fbec0a",
+    "name": "vivek",
+    "email": "vivek@giver.com",
+    "password": "$2b$10$koFgpsLR4GI09D/Du9.0VerRB62JbkD1j3JzW2YQexF4Hb8MR1x1u",
+    "role": "caregiver",
+    "phone": "",
+    "address": "",
+    "bio": "",
+    "profileImage": "",
+    "createdAt": "2026-08-17T10:31:28.290Z",
+    "updatedAt": "2026-08-17T10:31:28.290Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a8431a32346d9437922ac0a",
+    "name": "VIVEK",
+    "email": "vk3699010@gmail.com",
+    "password": "$2b$10$TSZYJLijDYQTcnwTPY57Mu4hckdxwiRx5frqAqa8WFNCxYQn7PuJ.",
+    "role": "caregiver",
+    "phone": "",
+    "address": "",
+    "bio": "",
+    "profileImage": "",
+    "createdAt": "2026-08-18T10:19:15.527Z",
+    "updatedAt": "2026-08-18T10:19:15.527Z",
+    "__v": 0
+  }
+]

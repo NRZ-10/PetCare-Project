@@ -47,6 +47,9 @@ const EditProfile = () => {
         if (!form.name.trim()) newErrors.name = 'Name is required';
         if (!form.email.trim()) newErrors.email = 'Email is required';
         else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Enter a valid email';
+        if (form.phone && form.phone.trim() !== '' && !/^\+?[0-9\s-]{10,15}$/.test(form.phone)) {
+            newErrors.phone = 'Enter a valid phone number';
+        }
         return newErrors;
     };
 
@@ -169,8 +172,9 @@ const EditProfile = () => {
                             value={form.phone}
                             onChange={handleChange}
                             placeholder="+91 98765 43210"
-                            className={inputNormal}
+                            className={errors.phone ? inputError : inputNormal}
                         />
+                        <FieldError field="phone" />
                     </div>
 
                     {/* Address */}

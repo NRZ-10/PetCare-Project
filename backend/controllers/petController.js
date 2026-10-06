@@ -32,14 +32,15 @@ const getPetById = async (req, res) => {
 // @desc    Add a new pet
 // @route   POST /api/pets
 // @access  Private/Owner
-const addPet = async (req, res) => {
+    const addPet = async (req, res) => {
     try {
-        const { name, breed, age, gender, vaccinationStatus, medicalNotes } = req.body;
+        const { name, type, breed, age, gender, vaccinationStatus, medicalNotes } = req.body;
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
         const pet = await Pet.create({
             owner: req.user._id,
             name,
+            type,
             breed,
             age: Number(age),
             gender,
@@ -64,7 +65,7 @@ const updatePet = async (req, res) => {
             return res.status(404).json({ message: 'Pet not found' });
         }
 
-        const { name, breed, age, gender, vaccinationStatus, medicalNotes } = req.body;
+        const { name, type, breed, age, gender, vaccinationStatus, medicalNotes } = req.body;
 
         // Handle new image upload – delete old image if it was stored locally
         if (req.file) {
@@ -78,6 +79,7 @@ const updatePet = async (req, res) => {
         }
 
         if (name) pet.name = name;
+        if (type) pet.type = type;
         if (breed) pet.breed = breed;
         if (age !== undefined) pet.age = Number(age);
         if (gender) pet.gender = gender;

@@ -18,7 +18,7 @@ const Footer = () => {
                                 <Heart className="h-5 w-5 text-white" />
                             </div>
                             <span className="ml-2 text-xl font-extrabold text-white tracking-tight group-hover:text-blue-400 transition-colors">
-                                PetCare Connect
+                                PetCareConnect
                             </span>
                         </Link>
                         <p className="text-sm text-slate-400 mb-6 leading-relaxed">

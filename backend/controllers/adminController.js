@@ -188,6 +188,54 @@ const getBookings = async (req, res) => {
     }
 };
 
+// @desc    Get reports data for charts
+// @route   GET /api/admin/reports
+const getReports = async (req, res) => {
+    try {
+        // 1. User Role Distribution
+        const ownersCount = await User.countDocuments({ role: 'owner' });
+        const caregiversCount = await User.countDocuments({ role: 'caregiver' });
+        const userDistribution = [
+            { name: 'Owners', value: ownersCount },
+            { name: 'Caregivers', value: caregiversCount }
+        ];
+
+        // 2. Booking Status Distribution
+        const bookingsStatus = await Booking.aggregate([
+            { $group: { _id: '$status', count: { $sum: 1 } } },
+            { $project: { name: '$_id', value: '$count', _id: 0 } }
+        ]);
+
+        // 3. Bookings over time (last 7 days or so based on createdAt)
+        // Group by YYYY-MM-DD
+        const bookingsOverTime = await Booking.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } },
+            { $project: { date: '$_id', count: 1, _id: 0 } }
+        ]);
+
+        // 4. Pet Vaccination Status
+        const petVaccination = await Pet.aggregate([
+            { $group: { _id: '$vaccinationStatus', count: { $sum: 1 } } },
+            { $project: { name: '$_id', value: '$count', _id: 0 } }
+        ]);
+
+        res.json({
+            userDistribution,
+            bookingsStatus,
+            bookingsOverTime,
+            petVaccination
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
 module.exports = {
     getDashboardStats,
     getUsers,
@@ -196,5 +244,6 @@ module.exports = {
     verifyCaregiver,
     getPets,
     deletePet,
-    getBookings
+    getBookings,
+    getReports
 };
