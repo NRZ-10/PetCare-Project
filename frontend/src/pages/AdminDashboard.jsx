@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Users, User, HeartHandshake, PawPrint, Calendar, AlertCircle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import DashboardCard from '../components/DashboardCard';
@@ -32,6 +33,7 @@ const AdminDashboard = () => {
             icon: Users,
             gradient: 'bg-gradient-to-br from-indigo-500 to-blue-600',
             iconBg: 'bg-white/20',
+            to: '/admin/users'
         },
         {
             title: 'Pet Owners',
@@ -40,6 +42,7 @@ const AdminDashboard = () => {
             icon: User,
             gradient: 'bg-gradient-to-br from-blue-400 to-indigo-500',
             iconBg: 'bg-white/20',
+            to: '/admin/owners'
         },
         {
             title: 'Caregivers',
@@ -48,6 +51,7 @@ const AdminDashboard = () => {
             icon: HeartHandshake,
             gradient: 'bg-gradient-to-br from-emerald-500 to-teal-600',
             iconBg: 'bg-white/20',
+            to: '/admin/caregivers'
         },
         {
             title: 'Total Pets',
@@ -56,6 +60,7 @@ const AdminDashboard = () => {
             icon: PawPrint,
             gradient: 'bg-gradient-to-br from-orange-400 to-amber-500',
             iconBg: 'bg-white/20',
+            to: '/admin/pets'
         },
         {
             title: 'Total Bookings',
@@ -64,14 +69,16 @@ const AdminDashboard = () => {
             icon: Calendar,
             gradient: 'bg-gradient-to-br from-purple-500 to-pink-600',
             iconBg: 'bg-white/20',
+            to: '/admin/bookings'
         },
         {
             title: 'Pending Approvals',
             value: loading ? '—' : stats?.pendingVerifications.toString(),
-            subtitle: 'Caregivers awaiting review',
+            subtitle: 'Review verification documents →',
             icon: AlertCircle,
             gradient: 'bg-gradient-to-br from-red-500 to-rose-600',
             iconBg: 'bg-white/20',
+            to: '/admin/caregivers?status=Pending'
         }
     ];
 
@@ -88,7 +95,15 @@ const AdminDashboard = () => {
                 <div className="flex justify-center py-20"><Loader /></div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {cards.map(card => <DashboardCard key={card.title} {...card} />)}
+                    {cards.map(card => (
+                        card.to ? (
+                            <Link key={card.title} to={card.to} className="block cursor-pointer">
+                                <DashboardCard {...card} />
+                            </Link>
+                        ) : (
+                            <DashboardCard key={card.title} {...card} />
+                        )
+                    ))}
                 </div>
             )}
         </div>

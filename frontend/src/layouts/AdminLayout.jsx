@@ -16,6 +16,7 @@ import {
     Menu,
     X,
     ChevronRight,
+    ShieldCheck,
 } from 'lucide-react';
 
 const navGroups = [
@@ -69,7 +70,7 @@ const AdminLayout = () => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-6">
+            <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-6 no-scrollbar">
                 {navGroups.map((group) => (
                     <div key={group.title}>
                         <p className="px-2 text-[10px] font-extrabold uppercase tracking-widest text-slate-500 mb-2">

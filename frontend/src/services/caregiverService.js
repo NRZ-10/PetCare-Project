@@ -32,3 +32,25 @@ export const searchCaregivers = (filters = {}) => {
     
     return api.get('/caregiver/search', { params: query });
 };
+
+/**
+ * Upload or replace verification document (Caregiver)
+ */
+export const uploadVerificationDocument = (formData) =>
+    api.post('/caregiver/verification/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+/**
+ * Fetch caregiver's own verification status
+ */
+export const getVerificationStatus = () => api.get('/caregiver/verification/status');
+
+/**
+ * Securely fetch/view caregiver's own verification document PDF
+ */
+export const getVerificationDocument = () =>
+    api.get('/caregiver/verification/document', {
+        responseType: 'blob',
+    });
+

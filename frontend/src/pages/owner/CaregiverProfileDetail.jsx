@@ -68,7 +68,7 @@ const CaregiverProfileDetail = () => {
     if (!profile) return null;
 
     const avatarUrl = profile.photo ? `${BACKEND_URL}${profile.photo}` : null;
-    const isVerified = profile.verificationStatus === 'Verified';
+    const isVerified = profile.verificationStatus === 'Approved' || profile.verificationStatus === 'Verified';
 
     return (
         <div className="p-6 sm:p-8 max-w-6xl mx-auto">

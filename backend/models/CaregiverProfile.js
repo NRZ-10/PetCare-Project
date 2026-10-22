@@ -38,8 +38,33 @@ const caregiverProfileSchema = new mongoose.Schema({
     },
     verificationStatus: {
         type: String,
-        enum: ['Pending', 'Verified', 'Rejected'],
-        default: 'Pending'
+        enum: ['Not Submitted', 'Pending', 'Approved', 'Rejected', 'Changes Requested', 'Verified'],
+        default: 'Not Submitted'
+    },
+    verificationDocumentPath: {
+        type: String,
+        default: ''
+    },
+    verificationDocumentOriginalName: {
+        type: String,
+        default: ''
+    },
+    verificationDocumentUploadedAt: {
+        type: Date,
+        default: null
+    },
+    verificationNote: {
+        type: String,
+        default: ''
+    },
+    verifiedAt: {
+        type: Date,
+        default: null
+    },
+    verifiedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
     }
 }, { timestamps: true });
 

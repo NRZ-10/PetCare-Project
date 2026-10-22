@@ -96,7 +96,7 @@ const getCaregivers = async (req, res) => {
         let query = {};
         if (status) query.verificationStatus = status;
 
-        const result = await getPaginatedData(CaregiverProfile, query, page, limit, ['user']);
+        const result = await getPaginatedData(CaregiverProfile, query, page, limit, ['user', 'verifiedBy']);
         
         // Manual search filter after population if search exists (not ideal for huge datasets, but fine for MVP)
         if (search) {
@@ -116,16 +116,26 @@ const getCaregivers = async (req, res) => {
 // @route   PUT /api/admin/caregivers/:id/verify
 const verifyCaregiver = async (req, res) => {
     try {
-        const { status } = req.body;
-        if (!['Pending', 'Verified', 'Rejected'].includes(status)) {
+        const { status, note } = req.body;
+        const validStatuses = ['Not Submitted', 'Pending', 'Approved', 'Verified', 'Rejected', 'Changes Requested'];
+        if (!validStatuses.includes(status)) {
             return res.status(400).json({ message: 'Invalid status' });
+        }
+
+        const updateData = { verificationStatus: status };
+        if (status === 'Approved' || status === 'Verified') {
+            updateData.verifiedAt = new Date();
+            updateData.verifiedBy = req.user._id;
+        }
+        if (note !== undefined) {
+            updateData.verificationNote = note;
         }
 
         const profile = await CaregiverProfile.findByIdAndUpdate(
             req.params.id,
-            { verificationStatus: status },
+            updateData,
             { new: true }
-        ).populate('user');
+        ).populate('user').populate('verifiedBy', 'name email');
 
         if (!profile) return res.status(404).json({ message: 'Caregiver profile not found' });
         

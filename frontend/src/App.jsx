@@ -85,6 +85,7 @@ function App() {
               <Route path="users" element={<AdminUsers />} />
               <Route path="owners" element={<AdminOwners />} />
               <Route path="caregivers" element={<AdminCaregivers />} />
+              <Route path="verifications" element={<AdminCaregivers />} />
               <Route path="pets" element={<AdminPets />} />
               <Route path="bookings" element={<AdminBookings />} />
               <Route path="reviews" element={<AdminReviews />} />

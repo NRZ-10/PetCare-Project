@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarCheck, History, Star, Eye, Edit2, ShieldCheck, AlertCircle } from 'lucide-react';
+import {
+    CalendarCheck,
+    History,
+    Star,
+    Eye,
+    Edit2,
+    ShieldCheck,
+    AlertCircle,
+    XCircle,
+    AlertTriangle,
+    Clock,
+    ArrowRight
+} from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import DashboardCard from '../components/DashboardCard';
 import Loader from '../components/Loader';
@@ -15,24 +27,26 @@ const CaregiverDashboard = () => {
     const [reviewsData, setReviewsData] = useState({ averageRating: '0.0', count: 0 });
     const [loading, setLoading] = useState(true);
 
+    const fetchData = async () => {
+        try {
+            const [profileRes, bookingsRes, reviewsRes] = await Promise.all([
+                getCaregiverProfile(),
+                getCaregiverBookings(),
+                reviewService.getCaregiverReviews(user._id)
+            ]);
+            setProfile(profileRes.data);
+            setBookings(bookingsRes.data);
+            setReviewsData(reviewsRes);
+        } catch (error) {
+            console.error("Failed to fetch dashboard data", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [profileRes, bookingsRes, reviewsRes] = await Promise.all([
-                    getCaregiverProfile(),
-                    getCaregiverBookings(),
-                    reviewService.getCaregiverReviews(user._id)
-                ]);
-                setProfile(profileRes.data);
-                setBookings(bookingsRes.data);
-                setReviewsData(reviewsRes);
-            } catch (error) {
-                console.error("Failed to fetch dashboard data", error);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchData();
+        // eslint-disable-next-line
     }, []);
 
     const cards = [
@@ -72,40 +86,101 @@ const CaregiverDashboard = () => {
 
     if (loading) return <div className="flex justify-center py-24"><Loader /></div>;
 
-    const isPending = profile?.verificationStatus === 'Pending';
-    const isVerified = profile?.verificationStatus === 'Verified';
+    const status = profile?.verificationStatus || 'Not Submitted';
+    const isPending = status === 'Pending';
+    const isApproved = status === 'Approved' || status === 'Verified';
+    const isRejected = status === 'Rejected';
+    const isChangesRequested = status === 'Changes Requested';
 
     return (
-        <div className="p-6 sm:p-8 max-w-6xl mx-auto">
-            {/* Status Banner */}
+        <div className="p-6 sm:p-8 max-w-6xl mx-auto space-y-8">
+            {/* Status Banners for Important Verification States */}
             {isPending && (
-                <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
-                    <AlertCircle className="text-amber-500 shrink-0 mt-0.5" size={20} />
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 sm:p-5 flex items-start gap-4 shadow-sm">
+                    <div className="p-2 bg-amber-100 text-amber-600 rounded-xl shrink-0 mt-0.5">
+                        <Clock size={22} />
+                    </div>
                     <div>
-                        <h3 className="font-bold text-amber-800">Verification Pending</h3>
-                        <p className="text-amber-700 text-sm mt-1">
-                            Your profile is currently under review by our admin team. You can still set up your profile and services in the meantime.
+                        <h3 className="font-bold text-amber-800 text-base">Verification Pending</h3>
+                        <p className="text-amber-700 text-sm mt-0.5">
+                            Your documents are waiting for Admin review. Our admin team will review your submitted document according to our verification process.
                         </p>
                     </div>
                 </div>
             )}
-            
-            {isVerified && (
-                <div className="mb-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center gap-3">
-                    <ShieldCheck className="text-emerald-500 shrink-0" size={20} />
+
+            {isApproved && (
+                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 sm:p-5 flex items-start gap-4 shadow-sm">
+                    <div className="p-2 bg-emerald-100 text-emerald-600 rounded-xl shrink-0 mt-0.5">
+                        <ShieldCheck size={22} />
+                    </div>
                     <div>
-                        <h3 className="font-bold text-emerald-800">Account Verified</h3>
-                        <p className="text-emerald-700 text-sm">Your profile is active and visible to pet owners.</p>
+                        <h3 className="font-bold text-emerald-800 text-base">Profile Verified</h3>
+                        <p className="text-emerald-700 text-sm mt-0.5">
+                            Your caregiver profile has been verified. Your profile is active and visible to pet owners in search results.
+                        </p>
                     </div>
                 </div>
             )}
 
-            {/* Greeting */}
-            <div className="mb-8 flex items-center justify-between">
+            {isRejected && (
+                <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start justify-between gap-4 shadow-sm">
+                    <div className="flex items-start gap-3 flex-1">
+                        <div className="p-2 bg-rose-100 text-rose-600 rounded-xl shrink-0 mt-0.5">
+                            <XCircle size={22} />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-bold text-rose-800 text-base">Verification Rejected</h3>
+                            <p className="text-rose-700 text-sm mt-0.5">
+                                Your verification document was rejected by the admin team.
+                            </p>
+                            {profile?.verificationNote && (
+                                <div className="mt-2.5 bg-white/80 border border-rose-200 rounded-xl p-3 text-xs sm:text-sm text-rose-900 font-medium">
+                                    <span className="font-bold">Reason:</span> {profile.verificationNote}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <Link
+                        to="/caregiver/profile/edit#verification"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs sm:text-sm font-semibold transition-colors shrink-0 shadow-sm self-start sm:self-center"
+                    >
+                        Replace Document <ArrowRight size={15} />
+                    </Link>
+                </div>
+            )}
+
+            {isChangesRequested && (
+                <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start justify-between gap-4 shadow-sm">
+                    <div className="flex items-start gap-3 flex-1">
+                        <div className="p-2 bg-blue-100 text-blue-600 rounded-xl shrink-0 mt-0.5">
+                            <AlertTriangle size={22} />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="font-bold text-blue-800 text-base">Changes Requested</h3>
+                            <p className="text-blue-700 text-sm mt-0.5">
+                                The admin reviewed your document and requested updates or corrections before approval.
+                            </p>
+                            {profile?.verificationNote && (
+                                <div className="mt-2.5 bg-white/80 border border-blue-200 rounded-xl p-3 text-xs sm:text-sm text-blue-900 font-medium">
+                                    <span className="font-bold">Admin Instructions:</span> {profile.verificationNote}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <Link
+                        to="/caregiver/profile/edit#verification"
+                        className="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-semibold transition-colors shrink-0 shadow-sm self-start sm:self-center"
+                    >
+                        Update Document <ArrowRight size={15} />
+                    </Link>
+                </div>
+            )}
+
+            {/* Greeting & Header */}
+            <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-slate-800">
-                        Dashboard
-                    </h1>
+                    <h1 className="text-3xl font-extrabold text-slate-800">Dashboard</h1>
                     <p className="text-slate-500 mt-1">Welcome back, {user?.name?.split(' ')[0]}!</p>
                 </div>
                 <Link
@@ -117,23 +192,24 @@ const CaregiverDashboard = () => {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
                 {cards.map((card) => (
                     <DashboardCard key={card.title} {...card} />
                 ))}
             </div>
 
-            {/* Recent Activity / Next steps */}
+            {/* Overview Grid: Bookings and Profile Completion */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Upcoming Bookings */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
                     <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center justify-between">
                         Upcoming Bookings
                         <Link to="/caregiver/history" className="text-sm text-emerald-600 hover:underline">View all</Link>
                     </h2>
-                    
+
                     {bookings.filter(b => b.status === 'Accepted').length > 0 ? (
                         <div className="space-y-4">
-                            {bookings.filter(b => b.status === 'Accepted').slice(0,3).map(b => (
+                            {bookings.filter(b => b.status === 'Accepted').slice(0, 3).map(b => (
                                 <div key={b._id} className="flex items-center gap-3 border-b border-slate-100 pb-3 last:border-0 last:pb-0">
                                     <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg shrink-0">
                                         <CalendarCheck size={18} />
@@ -154,8 +230,9 @@ const CaregiverDashboard = () => {
                     )}
                 </div>
 
+                {/* Profile Completion */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                    <h2 className="text-lg font-bold text-slate-800 mb-4">Profile Completion</h2>
+                    <h2 className="text-base font-bold text-slate-800 mb-4">Profile Completion</h2>
                     <div className="space-y-4">
                         <div className="flex items-center justify-between text-sm">
                             <span className="font-medium text-slate-600">Bio & Details</span>
@@ -169,10 +246,14 @@ const CaregiverDashboard = () => {
                             <span className="font-medium text-slate-600">Profile Photo</span>
                             {profile?.photo ? <CheckBadge /> : <MissingBadge />}
                         </div>
+                        <div className="flex items-center justify-between text-sm">
+                            <span className="font-medium text-slate-600">Verification Document</span>
+                            {profile?.verificationDocumentPath ? <CheckBadge /> : <MissingBadge />}
+                        </div>
                         <div className="pt-4 mt-2 border-t border-slate-100 text-center">
-                             <Link to="/caregiver/profile/edit" className="text-emerald-600 font-bold hover:underline text-sm">
+                            <Link to="/caregiver/profile/edit" className="text-emerald-600 font-bold hover:underline text-sm">
                                 Complete your profile →
-                             </Link>
+                            </Link>
                         </div>
                     </div>
                 </div>

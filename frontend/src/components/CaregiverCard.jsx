@@ -10,7 +10,7 @@ const BACKEND_URL = 'http://localhost:5000';
 const CaregiverCard = ({ profile }) => {
     const avatarUrl = profile.photo ? `${BACKEND_URL}${profile.photo}` : null;
     const name = profile.user?.name || 'Caregiver';
-    const isVerified = profile.verificationStatus === 'Verified';
+    const isVerified = profile.verificationStatus === 'Approved' || profile.verificationStatus === 'Verified';
 
     return (
         <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 hover:-translate-y-1 overflow-hidden flex flex-col">

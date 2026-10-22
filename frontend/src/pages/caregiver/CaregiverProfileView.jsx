@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Edit2, MapPin, Briefcase, DollarSign, Clock, ShieldCheck, CheckCircle } from 'lucide-react';
+import { Edit2, MapPin, Briefcase, DollarSign, Clock, ShieldCheck, CheckCircle, FileText, Eye, RefreshCw } from 'lucide-react';
 import Loader from '../../components/Loader';
-import { getCaregiverProfile } from '../../services/caregiverService';
+import { getCaregiverProfile, getVerificationDocument } from '../../services/caregiverService';
+import toast from 'react-hot-toast';
 
 const BACKEND_URL = 'http://localhost:5000';
 
 const CaregiverProfileView = () => {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [downloadingDoc, setDownloadingDoc] = useState(false);
 
     useEffect(() => {
         const fetch = async () => {
@@ -24,10 +26,24 @@ const CaregiverProfileView = () => {
         fetch();
     }, []);
 
+    const handleViewDocument = async () => {
+        setDownloadingDoc(true);
+        try {
+            const res = await getVerificationDocument();
+            const blob = new Blob([res.data], { type: 'application/pdf' });
+            const blobUrl = URL.createObjectURL(blob);
+            window.open(blobUrl, '_blank');
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Unable to open document. Please try again.');
+        } finally {
+            setDownloadingDoc(false);
+        }
+    };
+
     if (loading) return <div className="flex justify-center py-32"><Loader /></div>;
 
     const avatarUrl = profile?.photo ? `${BACKEND_URL}${profile.photo}` : null;
-    const isVerified = profile?.verificationStatus === 'Verified';
+    const isVerified = profile?.verificationStatus === 'Approved' || profile?.verificationStatus === 'Verified';
 
     return (
         <div className="p-6 sm:p-8 max-w-4xl mx-auto">
@@ -65,11 +81,16 @@ const CaregiverProfileView = () => {
                         <h2 className="text-2xl font-extrabold text-slate-800">{profile?.user?.name}</h2>
                         {isVerified ? (
                             <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-md bg-emerald-100 text-emerald-700">
-                                <ShieldCheck size={14} /> Verified
+                                <ShieldCheck size={14} /> Verified & Approved
                             </span>
                         ) : (
-                            <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-md bg-amber-100 text-amber-700">
-                                Pending Verification
+                            <span className={`inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-md ${
+                                profile?.verificationStatus === 'Pending' ? 'bg-amber-100 text-amber-700' :
+                                profile?.verificationStatus === 'Rejected' ? 'bg-rose-100 text-rose-700' :
+                                profile?.verificationStatus === 'Changes Requested' ? 'bg-blue-100 text-blue-700' :
+                                'bg-slate-100 text-slate-700'
+                            }`}>
+                                {profile?.verificationStatus || 'Not Submitted'}
                             </span>
                         )}
                     </div>
@@ -143,6 +164,57 @@ const CaregiverProfileView = () => {
                                 ) : (
                                     <p className="italic text-slate-400 text-sm">Not specified.</p>
                                 )}
+                            </div>
+
+                            {/* Verification Document Details */}
+                            <div className="border-t border-slate-200/80 pt-4">
+                                <div className="flex items-center justify-between text-slate-400 font-bold text-xs uppercase tracking-wider mb-2">
+                                    <span className="flex items-center gap-1.5"><FileText size={14} /> Verification</span>
+                                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                                        isVerified ? 'bg-emerald-100 text-emerald-700' :
+                                        profile?.verificationStatus === 'Pending' ? 'bg-amber-100 text-amber-700' :
+                                        profile?.verificationStatus === 'Rejected' ? 'bg-rose-100 text-rose-700' :
+                                        profile?.verificationStatus === 'Changes Requested' ? 'bg-blue-100 text-blue-700' :
+                                        'bg-slate-200 text-slate-600'
+                                    }`}>
+                                        {profile?.verificationStatus || 'Not Submitted'}
+                                    </span>
+                                </div>
+
+                                {profile?.verificationDocumentPath ? (
+                                    <div className="space-y-2 mt-2">
+                                        <p className="text-xs font-semibold text-slate-700 truncate" title={profile.verificationDocumentOriginalName}>
+                                            {profile.verificationDocumentOriginalName || 'verification.pdf'}
+                                        </p>
+                                        <button
+                                            type="button"
+                                            onClick={handleViewDocument}
+                                            disabled={downloadingDoc}
+                                            className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-lg text-xs font-semibold transition-colors shadow-sm cursor-pointer"
+                                        >
+                                            {downloadingDoc ? (
+                                                <>
+                                                    <RefreshCw size={12} className="animate-spin" /> Loading...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Eye size={12} /> View Uploaded PDF
+                                                </>
+                                            )}
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-slate-400 italic mt-1">No document uploaded yet.</p>
+                                )}
+
+                                <div className="mt-3 pt-2 text-right">
+                                    <Link
+                                        to="/caregiver/profile/edit#verification"
+                                        className="text-xs text-emerald-600 font-bold hover:underline"
+                                    >
+                                        Manage Documents →
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     </div>

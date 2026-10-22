@@ -110,7 +110,8 @@ const uploadPhoto = async (req, res) => {
 const searchCaregivers = async (req, res) => {
     try {
         const { location, service, availability } = req.query;
-        let query = { verificationStatus: 'Verified' };
+        // Only caregivers whose verificationStatus is Approved appear in search results
+        let query = { verificationStatus: 'Approved' };
 
         if (location) {
             query.location = { $regex: location, $options: 'i' };
