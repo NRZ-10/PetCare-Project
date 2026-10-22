@@ -11,7 +11,8 @@ import {
     X,
     ChevronRight,
     Search,
-    Calendar
+    Calendar,
+    AlertTriangle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -20,6 +21,7 @@ const navItems = [
     { to: '/owner/pets', label: 'My Pets', icon: PawPrint },
     { to: '/owner/search', label: 'Find Caregivers', icon: Search },
     { to: '/owner/bookings', label: 'My Bookings', icon: Calendar },
+    { to: '/owner/complaints', label: 'Complaints', icon: AlertTriangle },
     { to: '/owner/profile', label: 'My Profile', icon: UserCircle },
 ];
 

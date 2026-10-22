@@ -49,6 +49,10 @@ import BookingRequests from './pages/caregiver/BookingRequests';
 import BookingHistory from './pages/caregiver/BookingHistory';
 import Reviews from './pages/caregiver/Reviews';
 
+// Shared User Complaints Pages
+import UserComplaints from './pages/UserComplaints';
+import SubmitComplaintPage from './pages/SubmitComplaintPage';
+
 import ProtectedRoute from './routes/ProtectedRoute';
 
 /** Shared shell: Navbar + content + Footer */
@@ -102,6 +106,8 @@ function App() {
               <Route path="search" element={<SearchCaregivers />} />
               <Route path="caregiver/:id" element={<CaregiverProfileDetail />} />
               <Route path="bookings" element={<Bookings />} />
+              <Route path="complaints" element={<UserComplaints role="owner" />} />
+              <Route path="complaints/new" element={<SubmitComplaintPage role="owner" />} />
             </Route>
           </Route>
 
@@ -114,6 +120,8 @@ function App() {
               <Route path="requests" element={<BookingRequests />} />
               <Route path="history" element={<BookingHistory />} />
               <Route path="reviews" element={<Reviews />} />
+              <Route path="complaints" element={<UserComplaints role="caregiver" />} />
+              <Route path="complaints/new" element={<SubmitComplaintPage role="caregiver" />} />
             </Route>
           </Route>
 

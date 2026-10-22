@@ -12,6 +12,7 @@ import {
     Menu,
     X,
     ChevronRight,
+    AlertTriangle
 } from 'lucide-react';
 
 const navItems = [
@@ -20,6 +21,7 @@ const navItems = [
     { to: '/caregiver/requests', label: 'Booking Requests', icon: CalendarCheck },
     { to: '/caregiver/history', label: 'Booking History', icon: History },
     { to: '/caregiver/reviews', label: 'Reviews', icon: Star },
+    { to: '/caregiver/complaints', label: 'Complaints', icon: AlertTriangle },
 ];
 
 const CaregiverLayout = () => {
