@@ -1,4 +1,4 @@
-# PetCare Connect
+# PetCare Connect #
 
 PetCare Connect is a full-stack MERN application that connects pet owners with reliable and verified pet caregivers. It provides a seamless experience for managing pet profiles, booking services, leaving reviews, and managing profiles. 
 
